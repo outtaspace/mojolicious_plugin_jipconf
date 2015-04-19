@@ -1,17 +1,40 @@
 package Mojolicious::Plugin::JIPConf;
 
-use 5.006;
+use Mojo::Base 'Mojolicious::Plugin';
+
 use strict;
 use warnings;
+use Carp qw(croak);
 use English qw(-no_match_vars);
+use JIP::Conf;
 
 our $VERSION = '0.01';
+
+sub register {
+    my ($self, $app, $param_hashref) = @ARG;
+
+    my $helper_name = $param_hashref->{'helper_name'};
+
+    croak qq{Bad argument "helper_name"\n}
+        unless defined $helper_name and length $helper_name;
+
+    my $conf = JIP::Conf::init(
+        map { $param_hashref->{$_} } qw(path_to_file path_to_variable),
+    );
+
+    croak qq{Plugin "$helper_name" already exists in \$app\n}
+        if $app->can($helper_name);
+
+    $app->helper($helper_name => sub { $conf });
+
+    return $app->$helper_name;
+}
 
 1;
 
 =head1 NAME
 
-Mojolicious::Plugin::JIPConf - The great new Mojolicious::Plugin::JIPConf!
+Mojolicious::Plugin::JIPConf - plugin for JIP::Conf.
 
 =head1 VERSION
 
@@ -19,14 +42,38 @@ Version 0.01
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+=head2 Mojolicious
 
-Perhaps a little code snippet.
+sub startup {
+    my $self = shift;
 
-    use Mojolicious::Plugin::JIPConf;
+    my $conf = $self->plugin('JIPConf', {
+        helper_name      => 'conf',
+        path_to_file     => $self->home->rel_file('my_setiings.pm'),
+        path_to_variable => 'My::settings',
+    });
 
-    my $foo = Mojolicious::Plugin::JIPConf->new();
-    ...
+    $self->app->log->info($conf->user->greeting);
+}
+
+# in controller
+sub my_controller_action {
+    my $self = shift;
+
+    my $conf = $self->conf;
+
+    render $self->render(text => $conf->user->greeting);
+}
+
+=head2 Mojolicious::Lite
+
+my $conf = plugin JIPConf => {
+    helper_name      => 'conf',
+    path_to_file     => app->home->rel_file('my_setiings.pm'),
+    path_to_variable => 'My::settings',
+};
+
+app->log->info($conf->user->greeting);
 
 =head1 AUTHOR
 
