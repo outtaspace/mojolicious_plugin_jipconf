@@ -2,11 +2,9 @@ package Mojolicious::Plugin::JIPConf;
 
 use Mojo::Base 'Mojolicious::Plugin';
 
-use strict;
-use warnings;
+use JIP::Conf;
 use Carp qw(croak);
 use English qw(-no_match_vars);
-use JIP::Conf;
 
 our $VERSION = '0.01';
 
