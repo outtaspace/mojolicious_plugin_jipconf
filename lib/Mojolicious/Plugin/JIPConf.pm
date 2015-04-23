@@ -47,7 +47,7 @@ sub startup {
 
     my $conf = $self->plugin('JIPConf', {
         helper_name      => 'conf',
-        path_to_file     => $self->home->rel_file('my_setiings.pm'),
+        path_to_file     => $self->home->rel_file('my_settings.pm'),
         path_to_variable => 'My::settings',
     });
 
@@ -67,7 +67,7 @@ sub my_controller_action {
 
 my $conf = plugin JIPConf => {
     helper_name      => 'conf',
-    path_to_file     => app->home->rel_file('my_setiings.pm'),
+    path_to_file     => app->home->rel_file('my_settings.pm'),
     path_to_variable => 'My::settings',
 };
 
