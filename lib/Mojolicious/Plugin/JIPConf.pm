@@ -30,6 +30,8 @@ sub register {
 
 1;
 
+__END__
+
 =head1 NAME
 
 Mojolicious::Plugin::JIPConf - plugin for JIP::Conf.

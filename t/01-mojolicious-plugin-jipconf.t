@@ -1,3 +1,5 @@
+#!/usr/bin/env perl
+
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
@@ -15,7 +17,7 @@ subtest 'Require some module' => sub {
     diag(
         sprintf 'Testing Mojolicious::Plugin::JIPConf %s, Perl %s, %s',
             $Mojolicious::Plugin::JIPConf::VERSION,
-            $OLD_PERL_VERSION,
+            $PERL_VERSION,
             $EXECUTABLE_NAME,
     );
 };
@@ -33,11 +35,13 @@ subtest 'register() and JIP::Conf API' => sub {
 
     my $p = Mojolicious::Plugin::JIPConf->new;
 
-    eval { $p->register(undef, []) };
-    like $EVAL_ERROR, qr{^Not \s a \s HASH \s reference}x;
+    eval { $p->register(undef, []) } or do {
+        like $EVAL_ERROR, qr{^Not \s a \s HASH \s reference}x;
+    };
 
-    eval { $p->register(undef, {}) };
-    like $EVAL_ERROR, qr{^Bad \s argument \s "helper_name"}x;
+    eval { $p->register(undef, {}) } or do {
+        like $EVAL_ERROR, qr{^Bad \s argument \s "helper_name"}x;
+    };
 
     eval {
         $p->register(undef, {
@@ -45,8 +49,10 @@ subtest 'register() and JIP::Conf API' => sub {
             path_to_variable => 'path_to_variable',
             path_to_file     => undef,
         });
+    }
+    or do {
+        like $EVAL_ERROR, qr{^Bad \s argument \s "path_to_file"}x;
     };
-    like $EVAL_ERROR, qr{^Bad \s argument \s "path_to_file"}x;
 
     eval {
         $p->register(undef, {
@@ -54,7 +60,9 @@ subtest 'register() and JIP::Conf API' => sub {
             path_to_file     => $EXECUTABLE_NAME, # anything from file system
             path_to_variable => undef,
         });
+    }
+    or do {
+        like $EVAL_ERROR, qr{^Bad \s argument \s "path_to_variable"}x;
     };
-    like $EVAL_ERROR, qr{^Bad \s argument \s "path_to_variable"}x;
 };
 
