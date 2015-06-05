@@ -13,14 +13,14 @@ sub register {
 
     my $helper_name = $param_hashref->{'helper_name'};
 
-    croak qq{Bad argument "helper_name"\n}
+    croak q{Bad argument "helper_name"}
         unless defined $helper_name and length $helper_name;
 
     my $conf = JIP::Conf::init(
         map { $param_hashref->{$_} } qw(path_to_file path_to_variable),
     );
 
-    croak qq{Plugin "$helper_name" already exists in \$app\n}
+    croak(sprintf q{Plugin "%s" already exists in $app}, $helper_name)
         if $app->can($helper_name);
 
     $app->helper($helper_name => sub { $conf });
@@ -34,7 +34,7 @@ __END__
 
 =head1 NAME
 
-Mojolicious::Plugin::JIPConf - plugin for JIP::Conf.
+Mojolicious::Plugin::JIPConf - Plugin for JIP::Conf.
 
 =head1 VERSION
 
