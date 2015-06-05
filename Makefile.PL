@@ -22,7 +22,7 @@ WriteMakefile(
         'Mojolicious'         => 0,
         'Mojolicious::Plugin' => 0,
         'Mojo::Base'          => 0,
-        'JIP::Conf'           => 0.01,
+        'JIP::Conf'           => 0.02,
     },
     dist  => {COMPRESS => 'gzip -9f', SUFFIX => 'gz'},
     clean => {FILES => 'Mojolicious-Plugin-JIPConf-*'},
