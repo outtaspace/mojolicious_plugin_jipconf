@@ -6,7 +6,7 @@ use JIP::Conf;
 use Carp qw(croak);
 use English qw(-no_match_vars);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub register {
     my ($self, $app, $param_hashref) = @ARG;
@@ -38,42 +38,42 @@ Mojolicious::Plugin::JIPConf - Plugin for JIP::Conf.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =head1 SYNOPSIS
 
 =head2 Mojolicious
 
-sub startup {
-    my $self = shift;
+    sub startup {
+        my $self = shift;
 
-    my $conf = $self->plugin('JIPConf', {
-        helper_name      => 'conf',
-        path_to_file     => $self->home->rel_file('my_settings.pm'),
-        path_to_variable => 'My::settings',
-    });
+        my $conf = $self->plugin('JIPConf', {
+            helper_name      => 'conf',
+            path_to_file     => $self->home->rel_file('my_settings.pm'),
+            path_to_variable => 'My::settings',
+        });
 
-    $self->app->log->info($conf->user->greeting);
-}
+        $self->app->log->info($conf->user->greeting);
+    }
 
-# in controller
-sub my_controller_action {
-    my $self = shift;
+    # in controller
+    sub my_controller_action {
+        my $self = shift;
 
-    my $conf = $self->conf;
+        my $conf = $self->conf;
 
-    render $self->render(text => $conf->user->greeting);
-}
+        render $self->render(text => $conf->user->greeting);
+    }
 
 =head2 Mojolicious::Lite
 
-my $conf = plugin JIPConf => {
-    helper_name      => 'conf',
-    path_to_file     => app->home->rel_file('my_settings.pm'),
-    path_to_variable => 'My::settings',
-};
+    my $conf = plugin JIPConf => {
+        helper_name      => 'conf',
+        path_to_file     => app->home->rel_file('my_settings.pm'),
+        path_to_variable => 'My::settings',
+    };
 
-app->log->info($conf->user->greeting);
+    app->log->info($conf->user->greeting);
 
 =head1 AUTHOR
 

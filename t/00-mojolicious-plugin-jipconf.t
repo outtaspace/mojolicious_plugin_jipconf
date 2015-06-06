@@ -11,7 +11,7 @@ plan tests => 3;
 subtest 'Require some module' => sub {
     plan tests => 2;
 
-    use_ok 'Mojolicious::Plugin::JIPConf', '0.01';
+    use_ok 'Mojolicious::Plugin::JIPConf', '0.02';
     require_ok 'Mojolicious::Plugin::JIPConf';
 
     diag(
