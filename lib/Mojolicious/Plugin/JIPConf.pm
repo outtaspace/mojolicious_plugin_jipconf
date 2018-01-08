@@ -6,7 +6,7 @@ use JIP::Conf;
 use Carp qw(croak);
 use English qw(-no_match_vars);
 
-our $VERSION = '0.02';
+our $VERSION = '0.021';
 
 sub register {
     my ($self, $app, $param_hashref) = @ARG;
@@ -38,7 +38,7 @@ Mojolicious::Plugin::JIPConf - Plugin for JIP::Conf.
 
 =head1 VERSION
 
-This document describes C<Mojolicious::Plugin::JIPConf> version C<0.02>.
+This document describes C<Mojolicious::Plugin::JIPConf> version C<0.021>.
 
 =head1 SYNOPSIS
 
